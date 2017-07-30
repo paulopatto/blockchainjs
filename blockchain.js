@@ -1,3 +1,5 @@
+const Block = require('./block.js');
+
 class Blockchain {
 	constructor() {
 		this.chain = [this.createGenesisBlock()];
@@ -7,7 +9,7 @@ class Blockchain {
     return new Block("Genesis Block", "0"); 
   }
 
-  markWithTimestamp() { Date().toJSON(); }
+  markWithTimestamp() { new Date().toJSON(); }
 
   getLatestBlock() {
     return this.chain[this.chain.length - 1];
@@ -15,7 +17,7 @@ class Blockchain {
 
   addBlock(block) {
     block.previousHash = this.getLatestBlock().hash;
-    block.hash         = newBlock.calculateHash();
+    block.hash         = block.calculateHash();
 
     this.chain.push(block);
   }
@@ -26,10 +28,11 @@ class Blockchain {
       const previous = this.chain[index - 1];
 
       if(current.hash !== current.calculateHash()) return false;
-      if(current.previousHash !== previous.hash)) return false;
+      if(current.previousHash !== previous.hash) return false;
     }
 
     return true;
   }
 }
 
+module.exports = Blockchain;
